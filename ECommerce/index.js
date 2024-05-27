@@ -1,134 +1,99 @@
-let username = document.querySelector('div>h1>span')
-// fetching signup data page values in another page
-username.textContent = localStorage.getItem('name')
-username.style.color = 'red'
+// getting elements using descendents and child
+let signupbtn = document.querySelector('.container>div>input:nth-child(1)');
+let loginbtn = document.querySelector('.container>div>input:nth-child(2)');
+// getting form separately
+let signup = document.getElementById('signup')
 
+let signin = document.getElementById('signin')
+signin.style.display = 'grid';
+signin.style.gap = '0.2rem'
+signin.style.border = '0px solid #032f4b';
+signin.style.padding = '2rem';
+signin.style.boxShadow = '0px 0px 10px 5px #002a46';
+signin.style.borderRadius = '10px';
+signin.style.backgroundColor = '#00406b';
+// hiding signin form 
+signin.style.display = 'none';
+// trigrrring an event to display only signup form
+signupbtn.addEventListener('click', function () {
+    // signup.style.display = 'block';
+    signup.style.display = 'grid';
+    signup.style.marginRight = '10rem';
+    signup.style.gap = '0.2rem';
+    signup.style.border = '0px solid #032f4b';
+    signup.style.padding = '2rem';
+    signup.style.boxShadow = '0px 0px 10px 5px #002a46';
+    signup.style.borderRadius = '10px';
+    signup.style.backgroundColor = '#00406b';
+    signin.style.display = 'none';
+    document.title = 'signUp';
+})
 
-let addnewproduct = JSON.parse(localStorage.getItem('product')) || []
-// console.log(addnewproduct)
-let form = document.getElementById('form')
-form.addEventListener('submit', function (event) {
+loginbtn.addEventListener('click', function () {
+    signin.style.display = 'grid';
+    signin.style.gap = '0.2rem'
+    signin.style.border = '0px solid #032f4b';
+    signin.style.padding = '2rem';
+    signin.style.boxShadow = '0px 0px 10px 5px #002a46';
+    signin.style.borderRadius = '10px';
+    signin.style.backgroundColor = '#00406b';
+    signup.style.display = 'none';
+    document.title = 'signIn';
+})
+// triggring submit event to store form data
+signup.addEventListener('submit', function (event) {
     event.preventDefault();
-    let newproduct =
-    {
-        name: form.name.value,
-        brand: form.brand.value,
-        category: form.category.value,
-        price: form.price.value,
-        img: form.img.value
-    }
-    if (newproduct.brand == "All" || newproduct.category == "All" || newproduct.name == "" || newproduct.price == "" || newproduct.img == "") {
-        alert("fill all the inputs!")
+    // fetching user input value
+    let name = signup.name.value;
+    let email = signup.email.value;
+    let password = signup.password.value;
+
+    if (password != signup.passwordchk.value) {
+        alert("password not same!");
     }
     else {
-        if (addnewproduct.some(item => item.img === newproduct.img)) {
-            alert("product already in the cart!")
-            return;
-        }
-        else {
-            addnewproduct.push(newproduct)
-            localStorage.setItem('product', JSON.stringify(addnewproduct))
-            PrintDOM(addnewproduct);
-            alert("added succesfully!")
-            form.reset();
-        }
+        // storing form data into local storage
+        localStorage.setItem('name', name)
+        localStorage.setItem('email', email)
+        localStorage.setItem('password', password)
+        alert("signUP successful!")
+        // resetting the form after submit successful
+        signup.reset();
+        signup.style.display = 'none'
+        signin.style.display = 'block'
+        signin.style.display = 'grid';
+        signin.style.gap = '0.2rem'
+        signin.style.border = '0px solid #032f4b';
+        signin.style.padding = '2rem';
+        signin.style.boxShadow = '0px 0px 10px 5px #002a46';
+        signin.style.borderRadius = '10px';
+        signin.style.backgroundColor = '#00406b';
+        signup.style.display = 'none';
+        document.title = 'signIn';
     }
 })
 
-function PrintDOM(products) {
-    let result = document.getElementById('result');
-    result.innerHTML = '';
-    result.style.margin = "2rem auto"
-    products.forEach(function (el) {
-        let card = document.createElement('div');
-        card.style.display = "grid";
-        card.style.padding = "1rem"
-        card.style.gridTemplateColumns = "repeat(1,1fr)";
-        card.style.gap = "1rem";
-        card.style.height = "100%"
-        card.style.backgroundColor = "white"
-        card.style.borderRadius = "5px"
-        card.style.boxShadow = "0px 0px 20px black"
-        let name = document.createElement('h2');
-        name.textContent = el.name;
-        name.style.padding = "0px"
-        name.style.margin = "0px"
-        let brand = document.createElement('h2')
-        brand.textContent = "brand: " + el.brand;
-        brand.style.margin = '0px'
-        brand.style.padding = '0px'
-        let price = document.createElement('h1');
-        price.textContent = "price: " + el.price + "/-";
-        price.style.padding = "0px"
-        price.style.margin = "0px"
-        let img = document.createElement('img');
-        img.setAttribute('src', el.img);
-        img.style.width = "100px"
-        img.style.height = "100px"
-        img.style.margin = "0 auto"
-        let add = document.createElement('button');
-        add.textContent = 'add to cart';
-        add.style.color = "black"
-        add.style.fontWeight = "800"
-        add.style.borderRadius = "10px"
-        add.addEventListener('mouseover', function () {
-            add.style.backgroundColor = 'blue'
-            add.style.color = "white"
-        })
-        add.addEventListener('mouseout', function () {
-            add.style.backgroundColor = 'white'
-            add.style.color = "black"
-        })
-        add.addEventListener('click', function () {
-            let cartproduct = JSON.parse(localStorage.getItem('cartproduct')) || []
-            // Check if the product is already in the cart
-            let foundIndex = cartproduct.findIndex(item => item[0].name === el.name);
-            if (foundIndex !== -1) {
-                alert("already added!");
-            } else {
-                // If not found, add the product to the cart with a quantity of 1
-                cartproduct.push([el, 1]); //[product, quantity] directly into an array
-                localStorage.setItem('cartproduct', JSON.stringify(cartproduct));
-                alert("Added to cart successfully!");
-            }
-        });
+signin.addEventListener('submit', function (event) {
+    event.preventDefault();
+    let email = signin.email1.value;
+    let password = signin.password1.value;
 
-        card.append(name, brand, price, img, add);
-        result.append(card);
-    });
-}
-PrintDOM(addnewproduct);
+    let storedemail = localStorage.getItem('email');
+    let storedpassword = localStorage.getItem('password');
+    // comparing signup data with signin input value
+    if (email != storedemail) {
+        alert("user not found!");
+    }
+    else {
+        if (password != storedpassword) {
+            alert("wrong password!");
+        }
+        else {
+            alert("signIN successful!")
+            signin.reset();
+            // switching window to next page
+            window.location.assign('./home.html')
+        }
+    }
 
-let selectbrand = document.getElementById('selectbrand')
-selectbrand.addEventListener('change', function (event) {
-    let selectedbrand = event.target.value;
-    let storebrand = JSON.parse(localStorage.getItem('storedbrand')) || []
-    storebrand = addnewproduct.filter(function (el) {
-        return selectedbrand === el.brand;
-    })
-    localStorage.setItem('storedbrand', JSON.stringify(storebrand))
-    PrintDOM(storebrand)
 })
-let selectcategory = document.getElementById('selectcategory')
-selectcategory.addEventListener('change', function (event) {
-    let selectedcategory = event.target.value;
-    let storecategory = JSON.parse(localStorage.getItem('storedcategory')) || []
-    storecategory = addnewproduct.filter(function (el) {
-        return selectedcategory === el.category;
-    })
-    localStorage.setItem('storedcategory', JSON.stringify(storecategory))
-    PrintDOM(storecategory)
-})
-let logout = document.getElementById('logout')
-logout.addEventListener('click', function () {
-    alert("logout succesfully!")
-    window.location.assign('./home.html')
-})
-
-let gotocart = document.getElementById('gotocart')
-gotocart.addEventListener('click', function () {
-    window.location.assign('./cart.html')
-})
-
-
-
