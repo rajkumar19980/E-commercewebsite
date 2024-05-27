@@ -1,0 +1,65 @@
+body {
+    background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(0, 0, 0));
+    margin: 0px;
+    padding: 0px;
+    /* height: 100vh; */
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: auto;
+    align-items: center;
+}
+
+.containernew {
+    width: 70%;
+    padding: 1rem 0px;
+    border: 1px solid black;
+    margin: auto;
+    text-align: center;
+    border: none;
+    box-shadow: 0px 0px 1px 2px black;
+    border-radius: 10px;
+}
+
+.containernew>h1 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.containernew>form {
+    display: flex;
+    justify-content: space-around;
+}
+
+.containernew>form>input[type="submit"] {
+    background-color: #1d1d1d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.containernew>form>input[type="submit"]:hover {
+    background-color: red;
+}
+
+.containernew h1 {
+    padding: 0px;
+    margin: 0px 0px 2rem 0px;
+}
+
+.containernew input {
+    margin: 5px;
+}
+
+.selectbrandwrap {
+    width: 90%;
+    margin: 2rem auto;
+}
+
+#selectbrand,
+#selectcategory {
+    border-radius: 5px;
+}
